@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <id>TimerEvent</id>
+    <version>1.0.0</version>
+    <title>TimerEvent</title>
+    <authors>kevincastejon</authors>
+    <owners>kevincastejon</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>The TimerEvent package encapsulates the native System.Timers.Timer and the EventManager library together into a event-driven user friendly object.</description>
+    <copyright>Copyright ©  2020</copyright>
+    <dependencies>
+      <dependency id="EventManager" version="1.0.1" />
+    </dependencies>
+    <license type="expression">MIT</license>
+    <frameworkReferences>
+      <group targetFramework=".NETFramework4.6.1">
+        <frameworkReference name="net461" />
+      </group>
+    </frameworkReferences>
+  </metadata>
+</package>

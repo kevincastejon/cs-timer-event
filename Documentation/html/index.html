@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.17"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>TimerEvent: EventManager</title>
+<title>TimerEvent: TimerEvent</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -63,92 +63,29 @@ $(function() {
 
 <div class="PageDoc"><div class="header">
   <div class="headertitle">
-<div class="title">EventManager </div>  </div>
+<div class="title">TimerEvent </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><h2>EventManager package encapsulates the delegate system into an event flow similar to the Javascript event system.</h2>
-<h2>These are main advantages:</h2>
-<ul>
-<li>No delegate to declare</li>
-<li>Callback any method that accept an Event (or custom inherited class) object as parameter.</li>
-<li>The events can be dispatched without throwing exception even if no listeners are registered</li>
-<li>Extends easily base class Event to add properties suiting your needs</li>
-</ul>
+<div class="textblock"><h2>The TimerEvent package encapsulates the native System.Timers.Timer and the EventManager library together into a event-driven user friendly object.</h2>
+<h2>You can specify a delay in millisecond and a number of repeat or make it a endless loop</h2>
+<h2>You can then add event listeners to it to get the needed callbacks</h2>
 <h1>Sources</h1>
-<p><a href="https://github.com/kevincastejon/cs-event-manager">https://github.com/kevincastejon/cs-event-manager</a></p>
+<p><a href="https://github.com/kevincastejon/cs-timer-event">https://github.com/kevincastejon/cs-timer-event</a></p>
 <h1>Documentation</h1>
-<p><a href="https://github.com/kevincastejon/cs-event-manager/tree/master/Documentation/html">https://github.com/kevincastejon/cs-event-manager/tree/master/Documentation/html</a></p>
-<h1>Usages</h1>
-<p>Simple usage, without any extends</p>
-<div class="fragment"><div class="line">//Instantiate an EventDispatcher and add a listener</div>
-<div class="line">EventDispatcher ed = new EventDispatcher();</div>
-<div class="line">ed.On&lt;Event&gt;(&quot;someEventName&quot;, MyCallback);</div>
+<p><a href="https://github.com/kevincastejon/cs-event-manager/tree/master/Documentation/html">https://github.com/kevincastejon/cs-timer-event/tree/master/Documentation/html</a></p>
+<h1>Basic usage:</h1>
+<div class="fragment"><div class="line">// Instantiates a timer that will fire 3 times every 1000 ms</div>
+<div class="line">Timer t = new Timer(1000, 3);</div>
+<div class="line">// Adds listeners to it</div>
+<div class="line">t.AddEventListener&lt;TimerEvent&gt;(TimerEvent.Names.TIMER, TimerHandler);</div>
+<div class="line">t.AddEventListener&lt;TimerEvent&gt;(TimerEvent.Names.TIMER_COMPLETE, TimerHandler);</div>
+<div class="line">// Starts the timer</div>
+<div class="line">t.Start();</div>
 <div class="line"> </div>
-<div class="line">//Then somewhere in your code, call the DispatchEvent method of your EventDispatcher instance</div>
-<div class="line">ed.DispatchEvent(new Event(&quot;someEventName&quot;));</div>
-<div class="line"> </div>
-<div class="line">private void MyCallback(Event e){</div>
-<div class="line">Console.Writeline(e.Name+&quot; event has been dispatched&quot;);</div>
-<div class="line">}</div>
-</div><!-- fragment --><p>Advanced usage, with extending of EventDispatcher and Event</p>
-<div class="fragment"><div class="line">public class RiceBag : EventDispatcher</div>
+<div class="line">private void TimerHandler(TimerEvent e)</div>
 <div class="line">{</div>
-<div class="line">    private int _maxRiceGrain = 100;</div>
-<div class="line">    private int _currentRiceGrainNumber = 0;</div>
-<div class="line"> </div>
-<div class="line">    public void AddRice(int numberOfRiceGrain)</div>
-<div class="line">    {</div>
-<div class="line">        _currentRiceGrainNumber += numberOfRiceGrain;</div>
-<div class="line">        if (_currentRiceGrainNumber &gt; _maxRiceGrain) _currentRiceGrainNumber = _maxRiceGrain;</div>
-<div class="line">        DispatchEvent(new ContainerEvent(ContainerEvent.Names.ELEMENT_ADDED, _currentRiceGrainNumber, _maxRiceGrain));</div>
-<div class="line">        if (_currentRiceGrainNumber == _maxRiceGrain) DispatchEvent(new ContainerEvent(ContainerEvent.Names.FULL, _currentRiceGrainNumber, _maxRiceGrain));</div>
-<div class="line">    }</div>
-<div class="line">    public void RemoveRice(int numberOfRiceGrain)</div>
-<div class="line">    {</div>
-<div class="line">        _currentRiceGrainNumber -= numberOfRiceGrain;</div>
-<div class="line">        if (_currentRiceGrainNumber &lt; 0) _currentRiceGrainNumber = 0;</div>
-<div class="line">        DispatchEvent(new ContainerEvent(ContainerEvent.Names.ELEMENT_REMOVED, _currentRiceGrainNumber, _maxRiceGrain));</div>
-<div class="line">        if (_currentRiceGrainNumber == 0) DispatchEvent(new ContainerEvent(ContainerEvent.Names.EMPTY, _currentRiceGrainNumber, _maxRiceGrain));</div>
-<div class="line">    }</div>
-<div class="line">}</div>
-<div class="line">public class ContainerEvent : Event</div>
-<div class="line">{</div>
-<div class="line">    public enum Names { ELEMENT_ADDED, ELEMENT_REMOVED, FULL, EMPTY };</div>
-<div class="line">    private int _numberOfElements;</div>
-<div class="line">    private int _maxElements;</div>
-<div class="line"> </div>
-<div class="line">    public ContainerEvent(object name, int numberOfElements, int maxElements) : base(name)</div>
-<div class="line">    {</div>
-<div class="line">        _numberOfElements = numberOfElements;</div>
-<div class="line">        _maxElements = maxElements;</div>
-<div class="line">    }</div>
-<div class="line">    public int NumberOfElements { get { return (_numberOfElements); } }</div>
-<div class="line">    public int MaxElements { get { return (_maxElements); } }</div>
-<div class="line">    public float FillingRatio { get { return ((float)_numberOfElements / _maxElements); } }</div>
-<div class="line">}</div>
-<div class="line">public class TesterClass</div>
-<div class="line">{</div>
-<div class="line">    public TesterClass()</div>
-<div class="line">    {</div>
-<div class="line">        //Instantiate a RiceBag which extends EventDispatcher and add listeners to it</div>
-<div class="line">        RiceBag bag = new RiceBag();</div>
-<div class="line">        bag.On&lt;ContainerEvent&gt;(ContainerEvent.Names.ELEMENT_ADDED, MyCallback);</div>
-<div class="line">        bag.On&lt;ContainerEvent&gt;(ContainerEvent.Names.ELEMENT_REMOVED, MyCallback);</div>
-<div class="line">        bag.On&lt;ContainerEvent&gt;(ContainerEvent.Names.EMPTY, MyCallback);</div>
-<div class="line">        bag.On&lt;ContainerEvent&gt;(ContainerEvent.Names.FULL, MyCallback);</div>
-<div class="line"> </div>
-<div class="line">        //Then anywhere in your code, add and remove some rice off the bag</div>
-<div class="line">        bag.AddRice(26);</div>
-<div class="line">        bag.AddRice(48);</div>
-<div class="line">        bag.RemoveRice(12);</div>
-<div class="line">        bag.AddRice(70);</div>
-<div class="line">        bag.RemoveRice(200);</div>
-<div class="line">    }</div>
-<div class="line">    private void MyCallback(ContainerEvent e)</div>
-<div class="line">    {</div>
-<div class="line">        //Monitors the events dispatched by the bag</div>
-<div class="line">        Console.WriteLine(e.Name + &quot; - &quot; + e.NumberOfElements + &quot; rice grains on &quot; + e.MaxElements + &quot;. The bag is full at &quot; + e.FillingRatio + &quot;%&quot;);</div>
-<div class="line">    }</div>
+<div class="line">Timer t = e.Target as Timer;</div>
+<div class="line">Console.WriteLine(e.Name+&quot; Repeat Count:&quot;+t.RepeatCount+&quot;/&quot;+t.Repeat+&quot;  Delay:&quot;+t.Delay+&quot;ms  Running:&quot;+t.Running);</div>
 <div class="line">}</div>
 </div><!-- fragment --> </div></div><!-- PageDoc -->
 </div><!-- contents -->

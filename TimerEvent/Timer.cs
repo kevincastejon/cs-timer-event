@@ -33,6 +33,7 @@ namespace kevincastejon
         private int _repeatCount = 0;
         private bool _running = false;
         private System.Timers.Timer _timer;
+        private static object dummyObject = new object();
 
 
         /// <summary>
@@ -74,14 +75,18 @@ namespace kevincastejon
             {
                 _timer.Stop();
                 _timer.Elapsed -= InternalCallback;
+                _timer.Dispose();
             }
 
         }
         /// <summary>
         /// The number of milliseconds between each time the Timer instance will dispatch a TimerEvent event
         /// </summary>
-        public double Delay { get { return (_delay); }
-            set {
+        public double Delay
+        {
+            get { return (_delay); }
+            set
+            {
                 _delay = value;
                 if (_delay == 0)
                 {
@@ -104,20 +109,22 @@ namespace kevincastejon
 
         private void InternalCallback(object source, ElapsedEventArgs e)
         {
-            this.DispatchEvent(new TimerEvent(TimerEvent.Names.TIMER));
-            this._repeatCount++;
-            _timer.Elapsed -= InternalCallback;
-            _timer.Dispose();
-            if (this.RepeatCount == this.Repeat)
+            lock (dummyObject)
             {
-                _timer = null;
-                this.DispatchEvent(new TimerEvent(TimerEvent.Names.TIMER_COMPLETE));
-            }
-            else
-            {
-                _timer = new System.Timers.Timer(Delay);
-                _timer.Elapsed += InternalCallback;
-                _timer.Start();
+                this.DispatchEvent(new TimerEvent(TimerEvent.Names.TIMER));
+                this._repeatCount++;
+
+                if (this.RepeatCount == this.Repeat)
+                {
+                    _timer.Elapsed -= InternalCallback;
+                    _timer.Dispose();
+                    _timer = null;
+                    this.DispatchEvent(new TimerEvent(TimerEvent.Names.TIMER_COMPLETE));
+                }
+                else
+                {
+                    _timer.Interval = Delay;
+                }
             }
         }
     }

@@ -2,7 +2,7 @@
 
 ### The TimerEvent package encapsulates the native System.Timers.Timer and the EventManager library together into a event-driven user friendly object.
 ### You can specify a delay in millisecond and a number of repeat or make it a endless loop
-### You can then add event listeners to it to get the needed callbacks
+### You can then add event listeners to it to get the needed callbacks 
 
 ## Sources
 [https://github.com/kevincastejon/cs-timer-event](https://github.com/kevincastejon/cs-timer-event)

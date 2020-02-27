@@ -140,6 +140,7 @@ namespace kevincastejon
     /// </summary>
     public class TimerEvent : Event
     {
+        #pragma warning disable 108
         public enum Names { TIMER_COMPLETE, TIMER };
 
         public TimerEvent(object name) : base(name)

@@ -7,6 +7,9 @@
 ## Sources
 [https://github.com/kevincastejon/cs-timer-event](https://github.com/kevincastejon/cs-timer-event)
 
+## Nuget package
+[https://www.nuget.org/packages/TimerEvent/](https://www.nuget.org/packages/TimerEvent/)
+
 ## Documentation
 [https://github.com/kevincastejon/cs-timer-event/tree/master/Documentation/html](https://github.com/kevincastejon/cs-event-manager/tree/master/Documentation/html)
 
